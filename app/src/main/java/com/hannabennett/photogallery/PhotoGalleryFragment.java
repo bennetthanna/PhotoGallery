@@ -14,6 +14,7 @@ import android.widget.Gallery;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ public class PhotoGalleryFragment extends Fragment {
     private static final String TAG = "PhotoGalleryFragment";
 
     private RecyclerView mPhotoRecyclerView;
+    private List<GalleryItem> mItems = new ArrayList<>();
 
     public static PhotoGalleryFragment newInstance() {
         return new PhotoGalleryFragment();
@@ -44,7 +46,15 @@ public class PhotoGalleryFragment extends Fragment {
         mPhotoRecyclerView = (RecyclerView) v.findViewById(R.id.photo_recycler_view);
         mPhotoRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
+        setUpAdapter();
+
         return v;
+    }
+
+    private void setUpAdapter() {
+        if (isAdded()) {
+            mPhotoRecyclerView.setAdapter(new PhotoAdapter(mItems));
+        }
     }
 
     private class PhotoHolder extends RecyclerView.ViewHolder {
