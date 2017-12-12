@@ -70,6 +70,11 @@ public class ThumbnailDownloader<T> extends HandlerThread {
         }
     }
 
+    public void clearQueue() {
+        mRequestHandler.removeMessages(MESSAGE_DOWNLOAD);
+        mRequestMap.clear();
+    }
+
     private void handleRequest(final T target) {
         try {
             final String url = mRequestMap.get(target);
@@ -93,7 +98,7 @@ public class ThumbnailDownloader<T> extends HandlerThread {
                     mRequestMap.remove(target);
                     mThumbnailDownloadListener.onThumbnailDownloaded(target, bitmap);
                 }
-            })
+            });
         } catch (IOException ioe) {
             Log.e(TAG, "Error downloading image", ioe);
         }
